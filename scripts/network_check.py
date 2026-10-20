@@ -2,6 +2,7 @@
 import socket
 import urllib.request
 import urllib.error
+import time
 
 HOST = "www.google.com"
 URL = f"https://{HOST}"
@@ -11,6 +12,16 @@ def check_dns(host):
     print(f"\nChecking DNS resolution for {host}...")
 
     try:
+        start_time = time.perf_counter()
+
+        addresses = socket.getaddrinfo(
+            host,
+            443,
+            type=socket.SOCK_STREAM
+)
+
+        elapsed = time.perf_counter() - start_time
+        print(f"DNS resolution time: {elapsed * 1000:.2f} ms")
         addresses = socket.getaddrinfo(
             host,
             443,
@@ -45,6 +56,13 @@ def check_https(url):
     )
 
     try:
+        start_time = time.perf_counter()
+
+        with urllib.request.urlopen(request, timeout=10) as response:
+            elapsed = time.perf_counter() - start_time
+            print(f"HTTPS request time: {elapsed * 1000:.2f} ms")
+            print(f"[PASS] HTTPS request (HTTP {response.status})")
+            return True
         with urllib.request.urlopen(
             request,
             timeout=10
