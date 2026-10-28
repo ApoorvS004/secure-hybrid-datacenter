@@ -38,3 +38,11 @@ Define a proposed IPv4 addressing scheme for the AWS VPC and private datacenter.
 ## 6. Status and Limitations
 
 This is a proposed logical design, not deployed infrastructure. Address overlap, subnet sizing, availability-zone placement, routing, and connectivity requirements must be validated before implementation.
+
+## 7. Routing and Traffic Flow
+
+AWS application: 10.20.2.10
+Datacenter database: 10.30.1.20
+AWS route: 10.30.0.0/16 → hybrid VPN
+Datacenter return route: 10.20.0.0/16 → hybrid VPN
+Both directions must be allowed by the relevant security controls.
